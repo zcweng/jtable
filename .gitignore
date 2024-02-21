@@ -1,7 +1,10 @@
-target/
+**/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+Skija/
+**/*.log
+*.png
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -37,3 +40,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
