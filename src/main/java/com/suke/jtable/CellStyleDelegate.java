@@ -37,58 +37,54 @@ public interface CellStyleDelegate {
         if (Objects.nonNull(font)) {
             return font;
         }
-        return Table.DEFAULT_STYLE;
+        return CellStyle.DEFAULT_STYLE;
     }
 
     default CellStyleDelegate setFontStyle(int style) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, style));
+        applyStyle(font.setFontStyle(style));
         return this;
     }
 
     default CellStyleDelegate setFontSize(float size) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, size));
+        applyStyle(font.setFontSize(size));
         return this;
     }
 
     default CellStyleDelegate setFontName(String name) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, name));
+        applyStyle(font.setFontName(name));
         return this;
     }
 
     default CellStyleDelegate setFontColor(Color color) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, color));
+        applyStyle(font.setColor(color));
         return this;
     }
 
     default CellStyleDelegate setCellPadding(Rect padding) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, padding));
+        applyStyle(font.setPadding(padding));
         return this;
     }
 
     default CellStyleDelegate setBorder(Border border) {
         CellStyle font = findStyle();
-        applyStyle(new CellStyle(font, border));
+        applyStyle(font.setBorder(border));
         return this;
     }
 
     default CellStyleDelegate setCellBackground(Color color) {
         CellStyle font = findStyle();
-        final CellStyle style = new CellStyle(font);
-        style.setBackgroundColor(color);
-        applyStyle(style);
+        applyStyle(font.setBackgroundColor(color));
         return this;
     }
 
     default CellStyleDelegate setTextAlign(TextAlign textAlign) {
         CellStyle font = findStyle();
-        final CellStyle style = new CellStyle(font);
-        style.setTextAlign(textAlign);
-        applyStyle(style);
+        applyStyle(font.setTextAlign(textAlign));
         return this;
     }
 }

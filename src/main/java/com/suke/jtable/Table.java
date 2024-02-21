@@ -1,6 +1,8 @@
 package com.suke.jtable;
 
 
+import com.suke.jtable.graphics.Canvas;
+import com.suke.jtable.graphics.GraphicsEnv;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import sun.awt.SunHints;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,9 +26,10 @@ import static com.suke.jtable.Size.ZERO;
 
 
 public class Table implements CellStyleDelegate {
-    static final CellStyle DEFAULT_STYLE = new CellStyle(loadFont());// = new CellStyle("Arial", Font.PLAIN, 14);//GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()[0];
     @Setter
-    CellStyle style = DEFAULT_STYLE;
+    CellStyle style;// = CellStyle.DEFAULT_STYLE;
+    @Setter
+    Color backgroundColor = Color.WHITE;
     Map<Position, Cell> cellMap = new HashMap<>();
     Map<Integer, Row> rowMap = new HashMap<>();
     Map<Integer, Column> columnMap = new HashMap<>();
@@ -184,7 +188,7 @@ public class Table implements CellStyleDelegate {
         return new HashSet<>(cellMap.values());
     }
 
-    public void paint(Graphics2D graphics) {
+    public void paint(com.suke.jtable.graphics.Canvas graphics) {
         for (Cell cell : getCells()) {
             cell.paint(graphics);
         }
@@ -203,29 +207,19 @@ public class Table implements CellStyleDelegate {
     @SneakyThrows
     public void savePng(OutputStream os) {
         final Size size = layout(new Constraint());
+        final Canvas canvas = GraphicsEnv.getGraphicsEnv()
+                .createCanvas(size.width(), size.height(), BufferedImage.TYPE_USHORT_565_RGB);
 
-        BufferedImage image = new BufferedImage(size.width(), size.height(), BufferedImage.TYPE_USHORT_565_RGB);
-        final Graphics2D graphics = image.createGraphics();
-        graphics.setRenderingHint(SunHints.KEY_TEXT_ANTIALIASING, SunHints.VALUE_TEXT_ANTIALIAS_ON);
-        graphics.setRenderingHint(SunHints.KEY_ANTIALIASING, SunHints.VALUE_ANTIALIAS_ON);
-        graphics.setRenderingHint(SunHints.KEY_RENDERING, SunHints.VALUE_RENDER_QUALITY);
-        graphics.setStroke(new BasicStroke(1));
-        graphics.setColor(Color.WHITE);
-        graphics.fillRect(0,0,size.width(), size.height());
+        if (Objects.nonNull(backgroundColor)) {
+            canvas.setColor(backgroundColor);
+            canvas.fillRect(0,0,size.width(), size.height());
+        }
 
-        paint(graphics);
-
-        graphics.dispose();
-        ImageIO.write(image, "png", os);
-        image.flush();
+        paint(canvas);
+        canvas.write("png", os);
+        canvas.flush();
+        canvas.dispose();
         os.flush();
-    }
-
-    @SneakyThrows
-    private static Font loadFont() {
-        final URL resource = Table.class.getClassLoader().getResource("Microsoft Yahei.ttf");
-        return Font.createFont(Font.TRUETYPE_FONT, resource.openStream())
-                .deriveFont(Font.PLAIN, 14);
     }
 
 }

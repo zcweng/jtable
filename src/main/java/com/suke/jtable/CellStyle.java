@@ -1,97 +1,98 @@
 package com.suke.jtable;
 
-import lombok.AccessLevel;
+import com.suke.jtable.graphics.Font;
+import com.suke.jtable.graphics.java.JavaGraphicsEnv;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.awt.*;
-import java.text.AttributedCharacterIterator;
-import java.util.Map;
 
 /**
  * @author changwen.zhou
  * @date 2024/2/19
  */
-public class CellStyle extends Font {
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
-    private Color color = Color.BLACK;
+@Getter
+public class CellStyle {
+    public static final CellStyle DEFAULT_STYLE;
+    static {
+        DEFAULT_STYLE = new CellStyle();
+        DEFAULT_STYLE.font = JavaGraphicsEnv.getGraphicsEnv().getDefaultFont();
+        DEFAULT_STYLE.color = Color.BLACK;
+        DEFAULT_STYLE.textAlign = TextAlign.CENTER_LEFT;
+        DEFAULT_STYLE.border = Border.NONE;
+        DEFAULT_STYLE.backgroundColor = null;
+        DEFAULT_STYLE.padding = new Rect(0, 0, 0, 0);
+    }
 
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
-    private TextAlign textAlign = TextAlign.CENTER_LEFT;
-
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
-    Border border = Border.NONE;
-
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
-    private Color backgroundColor = null;
-
-    @Getter
-    @Setter(AccessLevel.PROTECTED)
+    private Font font;
+    private Color color;
+    private TextAlign textAlign;
+    private Border border;
+    private Color backgroundColor;
     private Rect padding;
 
-    public CellStyle(String name, int style, int size) {
-        super(name, style, size);
-    }
-
-    public CellStyle(Map<? extends AttributedCharacterIterator.Attribute, ?> attributes) {
-        super(attributes);
-    }
-
-    public CellStyle(Font font) {
-        super(font);
-    }
+    private CellStyle(){}
 
     public CellStyle(CellStyle font) {
-        super(font);
         copy(font);
     }
 
-    public CellStyle(CellStyle font, String name) {
-        super(new Font(name, font.style, font.size));
-        copy(font);
+    private void copy(CellStyle style) {
+        assert style != null;
+        font = (style.getFont());
+        color = (style.getColor());
+        textAlign = (style.getTextAlign());
+        border = (style.getBorder());
+        backgroundColor = (style.getBackgroundColor());
+        padding = (style.getPadding());
     }
 
-    public CellStyle(CellStyle font, int style) {
-        super(font.deriveFont(style));
-        copy(font);
+    public CellStyle setFontName(String name) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.font = (font.deriveFontName(name));
+        return cellStyle;
     }
 
-    public CellStyle(CellStyle font, float size) {
-        super(font.deriveFont(size));
-        copy(font);
+    public CellStyle setFontStyle(int style) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.font = (font.deriveFontStyle(style));
+        return cellStyle;
     }
 
-    public CellStyle(CellStyle font, Color color) {
-        super(new Font(font.getName(), font.getStyle(), font.getSize()));
-        copy(font);
-        setColor(color);
+    public CellStyle setFontSize(float size) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.font = (font.deriveFontSize(size));
+        return cellStyle;
     }
 
-    public CellStyle(CellStyle font, Rect padding) {
-        super(new Font(font.getName(), font.getStyle(), font.getSize()));
-        copy(font);
-        setPadding(padding);
+    public CellStyle setColor(Color color) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.color = (color);
+        return cellStyle;
     }
 
-    public CellStyle(CellStyle font, Border border) {
-        super(new Font(font.getName(), font.getStyle(), font.getSize()));
-        copy(font);
-        setBorder(border);
+    public CellStyle setTextAlign(TextAlign textAlign) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.textAlign = (textAlign);
+        return cellStyle;
     }
 
-    private void copy(CellStyle font) {
-        setColor(font.getColor());
-        setTextAlign(font.getTextAlign());
-        setBorder(font.getBorder());
-        setBackgroundColor(font.getBackgroundColor());
-        setPadding(font.getPadding());
+    public CellStyle setBorder(Border border) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.border = (border);
+        return cellStyle;
     }
 
-    public Font getFont() {
-        return this;
+    public CellStyle setBackgroundColor(Color color) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.backgroundColor = (color);
+        return cellStyle;
     }
+
+    public CellStyle setPadding(Rect padding) {
+        final CellStyle cellStyle = new CellStyle(this);
+        cellStyle.padding = (padding);
+        return cellStyle;
+    }
+
+
 }

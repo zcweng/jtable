@@ -1,12 +1,12 @@
 package com.suke.jtable;
 
+import com.suke.jtable.graphics.Canvas;
+import com.suke.jtable.graphics.GraphicsEnv;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,7 +15,6 @@ import java.util.Set;
 
 
 public class Cell implements CellStyleDelegate {
-    static final Graphics2D GRAPHICS = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).createGraphics();
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
@@ -37,9 +36,8 @@ public class Cell implements CellStyleDelegate {
         setText(text);
     }
 
-    public void paint(Graphics2D graphics) {
+    public void paint(Canvas graphics) {
         final CellStyle style = findStyle();
-//        System.out.println("paint cell: " + text + " " + bounds + " " + position + " " + size);
         final Color backgroundColor = style.getBackgroundColor();
         final Border border = style.getBorder();
         final int borderWidth = border == null ? 0 : border.getWidth();
@@ -50,7 +48,7 @@ public class Cell implements CellStyleDelegate {
         }
         if (borderWidth > 0) {
             graphics.setColor(border.getColor());
-            graphics.setStroke(new BasicStroke(border.getWidth()));
+            graphics.setStrokeWidth(border.getWidth());
             graphics.drawRect(position.x, position.y, size.width(), size.height());
         }
 
@@ -60,7 +58,6 @@ public class Cell implements CellStyleDelegate {
             recalculateTextSizeIfNeed();
             final Position textPosition = calcTextPosition(style);
             graphics.drawString(text, textPosition.x, textPosition.y);
-//            graphics.drawRect(offset.left, offset.top, offset.width(), offset.height());
         }
     }
 
@@ -103,13 +100,7 @@ public class Cell implements CellStyleDelegate {
             textBounds = new TextBounds();
             return;
         }
-        final FontMetrics fontMetrics = GRAPHICS.getFontMetrics(findStyle());
-        final Rectangle2D stringBounds = fontMetrics.getStringBounds(text, GRAPHICS);
-        final int ascent = fontMetrics.getAscent();
-        final int descent = fontMetrics.getDescent();
-
-        textBounds = new TextBounds((int)stringBounds.getMinX(), (int)(stringBounds.getMinY()),
-                (int)stringBounds.getMaxX(), (int)(stringBounds.getMaxY()), ascent, descent);
+        textBounds = GraphicsEnv.getGraphicsEnv().getTextBounds(text, findStyle());
     }
 
 
