@@ -63,8 +63,11 @@ public class Cell implements CellStyleDelegate {
 
     private Position calcTextPosition(CellStyle style) {
         final TextAlign textAlign = style.getTextAlign();
-        final Rect offset = textBounds.offset(position).offset(0, textBounds.ascent);
-        int x = offset.left, y = offset.bottom - textBounds.descent;
+//        final Rect offset = textBounds.offset(position).offset(0, textBounds.ascent);
+//        int x = offset.left, y = offset.bottom - textBounds.descent;
+
+        final Rect offset = textBounds.offset(position);//.offset(0, textBounds.ascent);
+        int x = offset.left, y = offset.top;// - textBounds.descent;
 
         Rect padding = style.getPadding();
         if (Objects.isNull(padding)) {

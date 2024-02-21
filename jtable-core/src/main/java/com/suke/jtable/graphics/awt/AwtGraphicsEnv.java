@@ -1,6 +1,7 @@
 package com.suke.jtable.graphics.awt;
 
 import com.suke.jtable.CellStyle;
+import com.suke.jtable.Rect;
 import com.suke.jtable.TextBounds;
 import com.suke.jtable.graphics.Canvas;
 import com.suke.jtable.graphics.Font;
@@ -43,7 +44,11 @@ public final class AwtGraphicsEnv extends GraphicsEnv {
         final int ascent = fontMetrics.getAscent();
         final int descent = fontMetrics.getDescent();
 
-        return new TextBounds((int)stringBounds.getMinX(), (int)(stringBounds.getMinY()),
-                (int)stringBounds.getMaxX(), (int)(stringBounds.getMaxY()), ascent, descent);
+        Rect rect = new Rect(
+                (int) stringBounds.getMinX(), (int) (stringBounds.getMinY()),
+                (int) stringBounds.getMaxX(), (int) (stringBounds.getMaxY()));
+        rect = rect.offset(0, ascent).offset(0, rect.height()).offset(0, -descent);
+
+        return new TextBounds(rect.getLeft(), rect.getTop(), rect.getRight(), rect.getBottom(), ascent, descent);
     }
 }

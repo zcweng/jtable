@@ -2,48 +2,60 @@ package com.suke.jtable.graphics.awt;
 
 import com.suke.jtable.Table;
 import com.suke.jtable.graphics.Font;
+import com.suke.jtable.graphics.FontStyle;
 import lombok.SneakyThrows;
 
 import java.net.URL;
-import java.text.AttributedCharacterIterator;
-import java.util.Map;
 
 /**
  * @author zcweng
  * @date 2024/2/21
  */
-public class AwtFont extends java.awt.Font implements Font {
+public class AwtFont implements Font {
     public static AwtFont DEFAULT = loadFont();
 
-    public AwtFont(String name, int style, float size) {
-        super(name, style, (int)(size + 0.5));
+    final java.awt.Font font;
+
+    private AwtFont(java.awt.Font font) {
+        this.font = font;
     }
 
-    public AwtFont(String name, int style, int size) {
-        super(name, style, size);
+    private AwtFont(String name, int style, float size) {
+        this(name, style, (int)(size + 0.5));
     }
 
-    public AwtFont(Map<? extends AttributedCharacterIterator.Attribute, ?> attributes) {
-        super(attributes);
+    private AwtFont(String name, int style, int size) {
+        this(new java.awt.Font(name, style, size));
     }
 
-    protected AwtFont(java.awt.Font font) {
-        super(font);
+    @Override
+    public String getName() {
+        return font.getName();
+    }
+
+    @Override
+    public FontStyle getStyle() {
+        return mapping(font.getStyle());
+    }
+
+    @Override
+    public int getSize() {
+        return font.getSize();
     }
 
     @Override
     public Font deriveFontName(String name) {
-        return new AwtFont(name, getStyle(), getSize());
+        return new AwtFont(name, mapping(getStyle()), getSize());
     }
 
     @Override
-    public Font deriveFontStyle(int style) {
-        return new AwtFont(getName(), style, getSize());
+    public Font deriveFontStyle(FontStyle style) {
+        return new AwtFont(getName(), mapping(style), getSize());
     }
 
     @Override
     public Font deriveFontSize(float size) {
-        return new AwtFont(getName(), getStyle(), size);
+        return new AwtFont(getName(), mapping(getStyle()), size);
     }
 
     @SneakyThrows
@@ -51,8 +63,42 @@ public class AwtFont extends java.awt.Font implements Font {
         final URL resource = Table.class.getClassLoader().getResource("Microsoft Yahei.ttf");
         final java.awt.Font font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, resource.openStream());
         return (AwtFont)new AwtFont(font)
-                .deriveFontStyle(java.awt.Font.PLAIN)
+                .deriveFontStyle(FontStyle.PLAIN)
                 .deriveFontSize(14);
     }
 
+    public java.awt.Font getValue() {
+        return font;
+    }
+
+    private int mapping(FontStyle style) {
+        switch (style) {
+            case PLAIN:
+                return java.awt.Font.PLAIN;
+            case BOLD:
+                return java.awt.Font.BOLD;
+            case ITALIC:
+                return java.awt.Font.ITALIC;
+//            case BOLD_ITALIC:
+//                return java.awt.Font.BOLD | java.awt.Font.ITALIC;
+            default:
+                throw new IllegalArgumentException("Unknown style: " + style);
+        }
+    }
+
+    private FontStyle mapping(int style) {
+        if (style == java.awt.Font.PLAIN) {
+            return FontStyle.PLAIN;
+        }
+        if (style == java.awt.Font.BOLD) {
+            return FontStyle.BOLD;
+        }
+        if (style == java.awt.Font.ITALIC) {
+            return FontStyle.ITALIC;
+        }
+//        if (style == (java.awt.Font.BOLD | java.awt.Font.ITALIC)) {
+//            return FontStyle.BOLD_ITALIC;
+//        }
+        throw new IllegalArgumentException("Unknown style: " + style);
+    }
 }

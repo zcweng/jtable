@@ -3,7 +3,6 @@ package com.suke.jtable.graphics.awt;
 import com.suke.jtable.graphics.Canvas;
 import com.suke.jtable.graphics.Font;
 import lombok.SneakyThrows;
-import sun.awt.SunHints;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,9 +21,9 @@ public class AwtCanvas implements Canvas {
     public AwtCanvas(BufferedImage image) {
         this.image = image;
         this.graphics = image.createGraphics();
-        graphics.setRenderingHint(SunHints.KEY_TEXT_ANTIALIASING, SunHints.VALUE_TEXT_ANTIALIAS_ON);
-        graphics.setRenderingHint(SunHints.KEY_ANTIALIASING, SunHints.VALUE_ANTIALIAS_ON);
-        graphics.setRenderingHint(SunHints.KEY_RENDERING, SunHints.VALUE_RENDER_QUALITY);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
     }
 
     @Override
@@ -54,9 +53,9 @@ public class AwtCanvas implements Canvas {
 
     @Override
     public void setFont(Font font) {
-        java.awt.Font javaFont = ((AwtFont) font);
+        java.awt.Font javaFont = ((AwtFont)font).getValue();
         if (Objects.isNull(javaFont)) {
-            javaFont = AwtFont.DEFAULT;
+            javaFont = AwtFont.DEFAULT.getValue();
         }
         graphics.setFont(javaFont);
     }

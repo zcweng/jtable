@@ -38,7 +38,14 @@ public class SkijaGraphicsEnv extends GraphicsEnv {
         final Rect rect = value.measureText(text);
         final FontMetrics metrics = value.getMetrics();
 
-        return new TextBounds((int)rect.getLeft(), (int)rect.getTop(), (int)rect.getRight(), (int)rect.getBottom(),
+        com.suke.jtable.Rect rect1 = new com.suke.jtable.Rect(
+                (int) rect.getLeft(), (int) rect.getTop(),
+                (int) rect.getRight(), (int) rect.getBottom());
+        rect1 = rect1.offset(0, rect1.height())
+                .offset(0, -(int) metrics.getAscent())
+                .offset(0, -(int) metrics.getDescent());
+
+        return new TextBounds(rect1.getLeft(), rect1.getTop(), rect1.getRight(), rect1.getBottom(),
                 (int)metrics.getAscent(), (int)metrics.getDescent());
     }
 }

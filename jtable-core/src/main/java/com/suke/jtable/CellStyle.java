@@ -1,6 +1,7 @@
 package com.suke.jtable;
 
 import com.suke.jtable.graphics.Font;
+import com.suke.jtable.graphics.FontStyle;
 import com.suke.jtable.graphics.awt.AwtGraphicsEnv;
 import lombok.Getter;
 
@@ -52,7 +53,7 @@ public class CellStyle {
         return cellStyle;
     }
 
-    public CellStyle setFontStyle(int style) {
+    public CellStyle setFontStyle(FontStyle style) {
         final CellStyle cellStyle = new CellStyle(this);
         cellStyle.font = (font.deriveFontStyle(style));
         return cellStyle;

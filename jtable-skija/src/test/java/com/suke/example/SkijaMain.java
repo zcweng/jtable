@@ -3,6 +3,7 @@ package com.suke.example;
 import com.suke.jtable.Border;
 import com.suke.jtable.Rect;
 import com.suke.jtable.Table;
+import com.suke.jtable.graphics.FontStyle;
 import com.suke.jtable.graphics.skija.SkijaGraphicsEnv;
 import lombok.SneakyThrows;
 
@@ -24,7 +25,7 @@ public class SkijaMain {
                 // 表格单元格边框1px，颜色#dadcdd
                 .setBorder(new Border(1, new Color(0xdadcdd), 0));
         // 表格第1行字体加粗
-        table.getRow(0).setFontStyle(Font.BOLD);
+        table.getRow(0).setFontStyle(FontStyle.BOLD);
         // 表格第2行背景色#f5f5f5
         table.getRow(1).setCellBackground(new Color(0xf5f5f5));
 

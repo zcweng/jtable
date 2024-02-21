@@ -5,13 +5,10 @@ import com.suke.jtable.graphics.Canvas;
 import com.suke.jtable.graphics.GraphicsEnv;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import sun.awt.SunHints;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;

@@ -50,7 +50,17 @@ public class SkijaCanvas implements Canvas {
 
     @Override
     public void drawRect(int x, int y, int width, int height) {
-        canvas.drawRect(new Rect(x, y, x + width, y + height), paint);
+        final float[] points = {
+                // left-top-> right-top
+                x, y, x + width, y,
+                // right-top -> right-bottom
+                x + width, y, x + width, y + height,
+                // right-bottom -> left-bottom
+                x + width, y + height, x, y + height,
+                // left-bottom -> left-top
+                x, y + height, x, y
+        };
+        canvas.drawLines(points, paint);
     }
 
     @Override

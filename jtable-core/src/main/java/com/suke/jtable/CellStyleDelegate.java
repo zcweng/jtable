@@ -1,5 +1,7 @@
 package com.suke.jtable;
 
+import com.suke.jtable.graphics.FontStyle;
+
 import java.awt.*;
 import java.util.Objects;
 
@@ -40,7 +42,7 @@ public interface CellStyleDelegate {
         return CellStyle.DEFAULT_STYLE;
     }
 
-    default CellStyleDelegate setFontStyle(int style) {
+    default CellStyleDelegate setFontStyle(FontStyle style) {
         CellStyle font = findStyle();
         applyStyle(font.setFontStyle(style));
         return this;

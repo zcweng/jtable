@@ -7,11 +7,11 @@ package com.suke.jtable.graphics;
 public interface Font {
 
     String getName();
-    int getStyle();
+    FontStyle getStyle();
     int getSize();
 
     Font deriveFontName(String name);
-    Font deriveFontStyle(int style);
+    Font deriveFontStyle(FontStyle style);
     Font deriveFontSize(float size);
 
 }
