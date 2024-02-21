@@ -1,7 +1,7 @@
 package com.suke.jtable.graphics;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public interface Font {

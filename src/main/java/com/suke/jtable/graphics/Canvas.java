@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.OutputStream;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public interface Canvas {

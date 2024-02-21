@@ -5,7 +5,7 @@ import com.suke.jtable.TextBounds;
 import com.suke.jtable.graphics.java.JavaGraphicsEnv;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public abstract class GraphicsEnv {

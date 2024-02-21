@@ -9,7 +9,7 @@ import java.text.AttributedCharacterIterator;
 import java.util.Map;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public class JavaFont extends java.awt.Font implements Font {

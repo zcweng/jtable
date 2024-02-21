@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public class JavaCanvas implements Canvas {

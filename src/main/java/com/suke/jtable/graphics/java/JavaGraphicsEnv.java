@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/21
  */
 public final class JavaGraphicsEnv extends GraphicsEnv {

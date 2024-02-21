@@ -1,7 +1,7 @@
 package com.suke.jtable;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/19
  */
 public enum TextAlign {

@@ -3,7 +3,7 @@ package com.suke.jtable;
 import lombok.Getter;
 
 /**
- * @author changwen.zhou
+ * @author zcweng
  * @date 2024/2/19
  */
 @Getter
