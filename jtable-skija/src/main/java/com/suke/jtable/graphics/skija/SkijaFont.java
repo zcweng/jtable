@@ -49,8 +49,8 @@ public class SkijaFont implements com.suke.jtable.graphics.Font {
 
     @Override
     public com.suke.jtable.graphics.Font deriveFontStyle(com.suke.jtable.graphics.FontStyle style) {
-        Typeface face = FontMgr.getDefault().matchFamilyStyle(getName(), mapping(style));
-        Font font = new Font(face, getSize());
+        final Typeface typeface = Typeface.makeFromName(getName(), mapping(style));
+        Font font = new Font(typeface, getSize());
         return new SkijaFont(font);
     }
 
