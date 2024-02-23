@@ -37,9 +37,9 @@ public final class AwtGraphicsEnv extends GraphicsEnv {
     }
 
     @Override
-    public TextBounds getTextBounds(String text, CellStyle style) {
+    public TextBounds measureTextBounds(String text, Font font) {
         acquireGraphics();
-        final FontMetrics fontMetrics = GRAPHICS.getFontMetrics(((AwtFont)style.getFont()).getValue());
+        final FontMetrics fontMetrics = GRAPHICS.getFontMetrics(((AwtFont)font).getValue());
         final Rectangle2D stringBounds = fontMetrics.getStringBounds(text, GRAPHICS);
         final int ascent = fontMetrics.getAscent();
         final int descent = fontMetrics.getDescent();

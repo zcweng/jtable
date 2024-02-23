@@ -9,6 +9,7 @@ public interface Font {
     String getName();
     FontStyle getStyle();
     int getSize();
+    int getSpacing();
 
     Font deriveFontName(String name);
     Font deriveFontStyle(FontStyle style);

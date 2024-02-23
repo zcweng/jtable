@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -145,6 +146,10 @@ public class Rect implements Comparable<Rect> {
         }
         return new Rect(left, top, right, bottom);
     }
+
+//    public static BinaryOperator<Rect> merge() {
+//        return Rect::merge;
+//    }
 
     public Collection<Position> getPositions() {
         Set<Position> set = new HashSet<>();

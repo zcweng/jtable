@@ -12,6 +12,8 @@ public class Constraint {
     int maxHeight;
 
     public Constraint(int minWidth, int maxWidth, int minHeight, int maxHeight) {
+        assert minWidth <= maxWidth;
+        assert minHeight <= maxHeight;
         this.minWidth = minWidth;
         this.maxWidth = maxWidth;
         this.minHeight = minHeight;

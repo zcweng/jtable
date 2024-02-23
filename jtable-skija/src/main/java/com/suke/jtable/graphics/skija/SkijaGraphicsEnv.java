@@ -17,7 +17,7 @@ public class SkijaGraphicsEnv extends GraphicsEnv {
     private SkijaGraphicsEnv(){}
 
     public static void load() {
-        GraphicsEnv.env = new SkijaGraphicsEnv();
+        GraphicsEnv.setEnv(new SkijaGraphicsEnv());
     }
 
 
@@ -32,8 +32,8 @@ public class SkijaGraphicsEnv extends GraphicsEnv {
     }
 
     @Override
-    public TextBounds getTextBounds(String text, CellStyle style) {
-        final SkijaFont font = (SkijaFont) style.getFont();
+    public TextBounds measureTextBounds(String text, Font _font) {
+        final SkijaFont font = (SkijaFont) _font;
         final io.github.humbleui.skija.Font value = font.getValue();
         final Rect rect = value.measureText(text);
         final FontMetrics metrics = value.getMetrics();

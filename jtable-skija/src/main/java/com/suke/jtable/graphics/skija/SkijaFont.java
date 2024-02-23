@@ -41,6 +41,11 @@ public class SkijaFont implements com.suke.jtable.graphics.Font {
     }
 
     @Override
+    public int getSpacing() {
+        return (int) (font.getSpacing() - getSize());
+    }
+
+    @Override
     public com.suke.jtable.graphics.Font deriveFontName(String name) {
         Typeface face = FontMgr.getDefault().matchFamilyStyle(name, mapping(getStyle()));
         Font font = new Font(face, getSize());

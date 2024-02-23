@@ -21,7 +21,7 @@ public class Column implements Comparable<Column>, CellStyleDelegate {
     final Table table;
 
     @Getter(AccessLevel.PROTECTED)
-    int width = WIDTH_ADJUST_CONTENT;
+    int width = 0;
 //    Border border;
     ConstraintWidth constraint = DEFAULT_CONSTRAINT;
     Set<Cell> cells = new HashSet<>();

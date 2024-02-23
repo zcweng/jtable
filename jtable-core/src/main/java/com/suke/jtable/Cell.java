@@ -23,10 +23,11 @@ public class Cell implements CellStyleDelegate {
     Set<Row> rows = new HashSet<>();
     @Getter(AccessLevel.PROTECTED)
     Set<Column> columns = new HashSet<>();
-    String text;
+//    String text;
     CellStyle style;
     Size size = null;
-    TextBounds textBounds;
+//    TextBounds textBounds;
+    TextBox textBox = TextBox.EMPTY;
     Position position;
 
     public Cell() {
@@ -52,22 +53,23 @@ public class Cell implements CellStyleDelegate {
             graphics.drawRect(position.x, position.y, size.width(), size.height());
         }
 
-        if (Objects.nonNull(text)) {
-            graphics.setColor(style.getColor());
-            graphics.setFont(style.getFont());
-            recalculateTextSizeIfNeed();
-            final Position textPosition = calcTextPosition(style);
-            graphics.drawString(text, textPosition.x, textPosition.y);
-        }
+        final Position textPosition = calcTextPosition(style);
+        textBox.paint(graphics, textPosition, style);
+
+//        if (Objects.nonNull(text)) {
+//            graphics.setColor(style.getColor());
+//            graphics.setFont(style.getFont());
+//            recalculateTextSizeIfNeed();
+//            final Position textPosition = calcTextPosition(style);
+//            graphics.drawString(text, textPosition.x, textPosition.y);
+//        }
     }
 
     private Position calcTextPosition(CellStyle style) {
         final TextAlign textAlign = style.getTextAlign();
-//        final Rect offset = textBounds.offset(position).offset(0, textBounds.ascent);
-//        int x = offset.left, y = offset.bottom - textBounds.descent;
-
-        final Rect offset = textBounds.offset(position);//.offset(0, textBounds.ascent);
-        int x = offset.left, y = offset.top;// - textBounds.descent;
+        final Rect textBounds = textBox.bounds;
+        final Rect offset = textBounds.offset(position);
+        int x = offset.left, y = offset.top;
 
         Rect padding = style.getPadding();
         if (Objects.isNull(padding)) {
@@ -95,22 +97,12 @@ public class Cell implements CellStyleDelegate {
         return new Position(y, x);
     }
 
-    private void recalculateTextSizeIfNeed() {
-        if (Objects.nonNull(textBounds)) {
-            return;
-        }
-        if (Objects.isNull(text)) {
-            textBounds = new TextBounds();
-            return;
-        }
-        textBounds = GraphicsEnv.getGraphicsEnv().getTextBounds(text, findStyle());
-    }
-
-
     protected int dryLayoutColumn(Constraint constraint, Column column) {
         if (getColspan() == 1) {
-            final int minWidth = minWidth();
-            return constraint.constrainWidth(minWidth);
+            final int textWidth = layoutTextBox(constraint).width();
+            final CellStyle style = findStyle();
+            final Rect padding = style.getPadding();
+            return constraint.constrainWidth(textWidth+padding.left+padding.right);
         }
 
         final ArrayList<Column> list = new ArrayList<>(columns);
@@ -121,27 +113,34 @@ public class Cell implements CellStyleDelegate {
         int w = 0;
         for (Column col : list) {
             if (col == column) {
-                final int minWidth = minWidth();
-                return Math.max(constraint.smallest().width, Math.max(0, minWidth - w));
+                final CellStyle style = findStyle();
+                final Rect padding = style.getPadding();
+                final int minWidth = layoutTextBox(constraint).width()+padding.left+padding.right;
+                return constraint.constrainWidth(minWidth-w);
+//                return Math.max(constraint.smallest().width, Math.max(0, minWidth - w));
             }
             w += col.width;
         }
         throw new IllegalArgumentException();
     }
 
-    private int minWidth() {
-        recalculateTextSizeIfNeed();
+    private Rect layoutTextBox(Constraint constraint) {
         final CellStyle style = findStyle();
         final Rect padding = style.getPadding();
-        return textBounds.width() + (padding == null ? 0 : (padding.left+padding.right));
+        final Constraint textConstraint = new Constraint(
+                Math.max(0, constraint.minWidth-padding.left-padding.right),
+                Math.max(0, constraint.maxWidth-padding.left-padding.right),
+                Math.max(0, constraint.minHeight-padding.top-padding.bottom),
+                Math.max(0, constraint.maxHeight-padding.top-padding.bottom));
+        return textBox.measure(textConstraint, style.getFont(), style.getTextWrap());
     }
 
     protected int dryLayoutRow(Constraint constraint) {
-        recalculateTextSizeIfNeed();
         final CellStyle style = findStyle();
         final Rect padding = style.getPadding();
+        final Rect textBounds = textBox.bounds;
         final int minHeight = textBounds.height() + (padding == null ? 0 : (padding.top+padding.bottom));
-        size = constraint.constrain(Size.of(size == null ? minWidth() : size.width, minHeight));
+        size = constraint.constrain(Size.of(size.width, minHeight));
         return size.height;
     }
 
@@ -183,6 +182,7 @@ public class Cell implements CellStyleDelegate {
 
     public void offset(Position offset) {
         this.position = offset;
+//        calcTextPosition(findStyle());
     }
 
     @Override
@@ -225,9 +225,10 @@ public class Cell implements CellStyleDelegate {
     }
 
     public Cell setText(String text) {
-        this.text = text;
+//        this.text = text;
         assert text != null;
-        textBounds = null;
+//        textBounds = null;
+        textBox = new TextBox(text);
         return this;
     }
 }

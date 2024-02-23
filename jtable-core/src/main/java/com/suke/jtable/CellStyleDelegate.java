@@ -23,21 +23,21 @@ public interface CellStyleDelegate {
         if (Objects.isNull(parent)) {
             return null;
         }
-        final CellStyle font = parent.getMyStyle();
-        if (Objects.nonNull(font)) {
-            return font;
+        final CellStyle style = parent.getMyStyle();
+        if (Objects.nonNull(style)) {
+            return style;
         }
         return parent.getParentStyle();
     }
 
     default CellStyle findStyle() {
-        CellStyle font = getMyStyle();
-        if (Objects.nonNull(font)) {
-            return font;
+        CellStyle style = getMyStyle();
+        if (Objects.nonNull(style)) {
+            return style;
         }
-        font = getParentStyle();
-        if (Objects.nonNull(font)) {
-            return font;
+        style = getParentStyle();
+        if (Objects.nonNull(style)) {
+            return style;
         }
         return CellStyle.DEFAULT_STYLE;
     }
@@ -49,44 +49,44 @@ public interface CellStyleDelegate {
     }
 
     default CellStyleDelegate setFontSize(float size) {
-        CellStyle font = findStyle();
-        applyStyle(font.setFontSize(size));
+        CellStyle style = findStyle();
+        applyStyle(style.setFontSize(size));
         return this;
     }
 
     default CellStyleDelegate setFontName(String name) {
-        CellStyle font = findStyle();
-        applyStyle(font.setFontName(name));
+        CellStyle style = findStyle();
+        applyStyle(style.setFontName(name));
         return this;
     }
 
     default CellStyleDelegate setFontColor(Color color) {
-        CellStyle font = findStyle();
-        applyStyle(font.setColor(color));
+        CellStyle style = findStyle();
+        applyStyle(style.setColor(color));
         return this;
     }
 
     default CellStyleDelegate setCellPadding(Rect padding) {
-        CellStyle font = findStyle();
-        applyStyle(font.setPadding(padding));
+        CellStyle style = findStyle();
+        applyStyle(style.setPadding(padding));
         return this;
     }
 
     default CellStyleDelegate setBorder(Border border) {
-        CellStyle font = findStyle();
-        applyStyle(font.setBorder(border));
+        CellStyle style = findStyle();
+        applyStyle(style.setBorder(border));
         return this;
     }
 
     default CellStyleDelegate setCellBackground(Color color) {
-        CellStyle font = findStyle();
-        applyStyle(font.setBackgroundColor(color));
+        CellStyle style = findStyle();
+        applyStyle(style.setBackgroundColor(color));
         return this;
     }
 
     default CellStyleDelegate setTextAlign(TextAlign textAlign) {
-        CellStyle font = findStyle();
-        applyStyle(font.setTextAlign(textAlign));
+        CellStyle style = findStyle();
+        applyStyle(style.setTextAlign(textAlign));
         return this;
     }
 }

@@ -44,6 +44,11 @@ public class AwtFont implements Font {
     }
 
     @Override
+    public int getSpacing() {
+        return (int) (font.getSize()*0.2);
+    }
+
+    @Override
     public Font deriveFontName(String name) {
         return new AwtFont(name, mapping(getStyle()), getSize());
     }

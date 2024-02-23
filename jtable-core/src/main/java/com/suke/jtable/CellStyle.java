@@ -22,6 +22,7 @@ public class CellStyle {
         DEFAULT_STYLE.border = Border.NONE;
         DEFAULT_STYLE.backgroundColor = null;
         DEFAULT_STYLE.padding = new Rect(0, 0, 0, 0);
+        DEFAULT_STYLE.textWrap = TextWrap.NO_WRAP;
     }
 
     private Font font;
@@ -30,6 +31,7 @@ public class CellStyle {
     private Border border;
     private Color backgroundColor;
     private Rect padding;
+    private TextWrap textWrap;
 
     private CellStyle(){}
 
@@ -45,6 +47,7 @@ public class CellStyle {
         border = (style.getBorder());
         backgroundColor = (style.getBackgroundColor());
         padding = (style.getPadding());
+        textWrap = (style.getTextWrap());
     }
 
     public CellStyle setFontName(String name) {
