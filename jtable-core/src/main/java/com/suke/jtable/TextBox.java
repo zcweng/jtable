@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
  * @date 2024/2/23
  */
 public class TextBox {
-    public static final TextBox EMPTY = new TextBox("");
     Rect bounds;
     List<String> lines;
     final String text;
     boolean measured = false;
 
+    private TextBox(){
+        this.text = "";
+    }
     public TextBox(String text) {
         this.text = text;
         assert text != null : "text can't be null";
@@ -85,6 +87,8 @@ public class TextBox {
     }
 
     public void paint(Canvas graphics, Position textPosition, CellStyle style) {
+        assert isMeasured(): "TextBox must be measured before painting";
+
         final Font font = style.getFont();
         final Color color = style.getColor();
         graphics.setColor(color);
@@ -102,4 +106,14 @@ public class TextBox {
     public boolean isMeasured() {
         return measured;
     }
+
+    public static final TextBox EMPTY = new TextBox() {
+        @Override
+        public void paint(Canvas graphics, Position textPosition, CellStyle style) {}
+
+        @Override
+        public Rect measure(Constraint constraint, Font font, TextWrap textWrap) {
+            return Rect.EMPTY;
+        }
+    };
 }
