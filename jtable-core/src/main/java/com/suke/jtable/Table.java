@@ -6,6 +6,9 @@ import com.suke.jtable.graphics.GraphicsEnv;
 import lombok.Setter;
 import lombok.SneakyThrows;
 
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;

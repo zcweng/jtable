@@ -4,10 +4,20 @@ import com.suke.jtable.graphics.Canvas;
 import com.suke.jtable.graphics.Font;
 import lombok.SneakyThrows;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -70,4 +80,5 @@ public class AwtCanvas implements Canvas {
     public void flush() {
         image.flush();
     }
+
 }
